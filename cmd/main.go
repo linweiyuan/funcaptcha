@@ -9,4 +9,7 @@ import (
 func main() {
 	token, _ := funcaptcha.GetOpenAIToken()
 	fmt.Println(token)
+
+	token, _ = funcaptcha.GetOpenAITokenWithBx("THE bx")
+	fmt.Println(token)
 }
