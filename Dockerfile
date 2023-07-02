@@ -8,7 +8,7 @@ WORKDIR /app
 ADD go.mod .
 ADD go.sum .
 RUN go mod download
-COPY ../../../../Administrator/desktop .
+COPY . .
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-s -w" -o /app/arkose-token cmd/main.go
 
 FROM --platform=${TARGETPLATFORM:-linux/amd64} scratch
