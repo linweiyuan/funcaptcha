@@ -22,7 +22,7 @@ func main() {
 		if err != nil {
 			return c.JSON(map[string]any{"error": err.Error()})
 		}
-		return c.JSON(token)
+		return c.JSON(fiber.Map{"token": token})
 	})
 
 	err := app.Listen(":3610")
