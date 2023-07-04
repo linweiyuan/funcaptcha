@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/linweiyuan/funcaptcha/cfg"
 	"math/rand"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -282,7 +282,7 @@ var (
 func init() {
 	cli, _ := tls_client.NewHttpClient(tls_client.NewNoopLogger(), options...)
 	client = &cli
-	proxy := os.Getenv("http_proxy")
+	proxy := cfg.GetStr("proxy_url")
 	if proxy != "" {
 		(*client).SetProxy(proxy)
 	}

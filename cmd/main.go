@@ -1,15 +1,35 @@
 package main
 
 import (
-	"fmt"
-
+	"errors"
+	"github.com/gofiber/fiber/v2"
 	"github.com/linweiyuan/funcaptcha"
+	"github.com/linweiyuan/funcaptcha/cfg"
+	"log"
 )
 
 func main() {
-	token, _ := funcaptcha.GetOpenAIToken()
-	fmt.Println(token)
+	app := fiber.New()
 
-	token, _ = funcaptcha.GetOpenAITokenWithBx("THE bx")
-	fmt.Println(token)
+	app.Get("/", func(c *fiber.Ctx) error {
+		bx := cfg.GetStr("bx")
+		var token, err = "", errors.New("")
+		if bx == "" {
+			token, err = funcaptcha.GetOpenAIToken()
+		} else {
+			token, err = funcaptcha.GetOpenAIToken()
+		}
+		if err != nil {
+			return c.JSON(map[string]any{"error": err.Error()})
+		}
+		return c.JSON(fiber.Map{"token": token})
+	})
+
+	err := app.Listen(":3610")
+	log.Printf("server running! port ===> 3610")
+
+	if err != nil {
+		log.Printf("启动失败! err info ===>", err)
+	}
+
 }
