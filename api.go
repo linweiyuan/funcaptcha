@@ -275,7 +275,6 @@ var (
 		getFe(),
 		getIfeHash(),
 	)
-	bx20230702 = fmt.Sprintf(`[{"key":"fe","value":%s}]`, getFe())
 )
 
 //goland:noinspection GoUnhandledErrorResult
@@ -345,7 +344,6 @@ func sendRequest(bda string) (string, error) {
 
 //goland:noinspection SpellCheckingInspection
 func getBDA() string {
-	bx = bx20230702
 	bt := getBt()
 	bw := getBw(bt)
 	return encrypt(bx, bv+bw)
