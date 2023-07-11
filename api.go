@@ -55,7 +55,7 @@ var (
 		{"FR": false},
 		{"FOS": false},
 		{"FB": false},
-		{"JSF": "Arial;Courier;Courier New;Helvetica;Times;Times New Roman"},
+		{"JSF": ""},
 		{"P": p},
 		{"T": "0;false;false"},
 		{"H": 16},
