@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"math/rand"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -33,7 +32,7 @@ var (
 		tls_client.WithNotFollowRedirects(),
 		tls_client.WithCookieJar(jar), // create cookieJar instance and pass it as argument
 	}
-	client *tls_client.HttpClient
+	client tls_client.HttpClient
 
 	// LinkedHashMap
 	fe = []map[string]interface{}{
@@ -279,17 +278,12 @@ var (
 
 //goland:noinspection GoUnhandledErrorResult
 func init() {
-	cli, _ := tls_client.NewHttpClient(tls_client.NewNoopLogger(), options...)
-	client = &cli
-	proxy := os.Getenv("http_proxy")
-	if proxy != "" {
-		(*client).SetProxy(proxy)
-	}
+	client, _ = tls_client.NewHttpClient(tls_client.NewNoopLogger(), options...)
 }
 
 //goland:noinspection GoUnusedExportedFunction
-func SetTLSClient(cli *tls_client.HttpClient) {
-	client = cli
+func SetTLSClient(tlsClient tls_client.HttpClient) {
+	client = tlsClient
 }
 
 func GetOpenAIToken() (string, error) {
@@ -311,7 +305,7 @@ func sendRequest(bda string) (string, error) {
 		"style_theme":  {"default"},
 		"rnd":          {strconv.FormatFloat(rand.Float64(), 'f', -1, 64)},
 	}
-	req, _ := http.NewRequest(http.MethodPost, "https://tcr9i.chat.openai.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147", strings.NewReader(form.Encode()))
+	req, _ := http.NewRequest(http.MethodPost, "https://client-api.arkoselabs.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147", strings.NewReader(form.Encode()))
 	req.Header.Set("Accept", "*/*")
 	req.Header.Set("Accept-Encoding", "gzip, deflate, br")
 	req.Header.Set("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
@@ -320,7 +314,7 @@ func sendRequest(bda string) (string, error) {
 	req.Header.Set("Origin", "https://tcr9i.chat.openai.com")
 	req.Header.Set("Referer", "https://tcr9i.chat.openai.com/v2/1.5.2/enforcement.64b3a4e29686f93d52816249ecbf9857.html")
 	req.Header.Set("User-Agent", bv)
-	resp, err := (*client).Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}
