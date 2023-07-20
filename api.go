@@ -306,13 +306,18 @@ func sendRequest(bda string) (string, error) {
 		"rnd":          {strconv.FormatFloat(rand.Float64(), 'f', -1, 64)},
 	}
 	req, _ := http.NewRequest(http.MethodPost, "https://client-api.arkoselabs.com/fc/gt2/public_key/35536E1E-65B4-4D96-9D97-6ADB7EFF8147", strings.NewReader(form.Encode()))
+	req.Header.Set("Authority", "client-api.arkoselabs.com")
 	req.Header.Set("Accept", "*/*")
-	req.Header.Set("Accept-Encoding", "gzip, deflate, br")
-	req.Header.Set("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
+	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-	req.Header.Set("DNT", "1")
-	req.Header.Set("Origin", "https://tcr9i.chat.openai.com")
-	req.Header.Set("Referer", "https://tcr9i.chat.openai.com/v2/1.5.2/enforcement.64b3a4e29686f93d52816249ecbf9857.html")
+	req.Header.Set("Origin", "https://client-api.arkoselabs.com")
+	req.Header.Set("Referer", "https://client-api.arkoselabs.com/v2/1.5.2/enforcement.64b3a4e29686f93d52816249ecbf9857.html")
+	req.Header.Set("Sec-Ch-Ua", `"Chromium";v="115", "Not/A)Brand";v="99"`)
+	req.Header.Set("Sec-Ch-Ua-Mobile", "?0")
+	req.Header.Set("Sec-Ch-Ua-Platform", `"Linux"`)
+	req.Header.Set("Sec-Fetch-Dest", "empty")
+	req.Header.Set("Sec-Fetch-Mode", "cors")
+	req.Header.Set("Sec-Fetch-Site", "same-origin")
 	req.Header.Set("User-Agent", bv)
 	resp, err := client.Do(req)
 	if err != nil {
